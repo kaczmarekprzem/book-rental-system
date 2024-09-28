@@ -1,0 +1,97 @@
+openapi: 3.0.3
+info:
+  title: Recrutation
+  description: Swagger for 2 books services
+  contact:
+    name: Arkadiusz Przytuła
+    email: arkadiusz.przytula@datasystem.com
+  version: 0.0.1
+servers:
+  - url: https://todo
+tags:
+  - name: Service1
+    description: Book Servis with NoSql Database 
+  - name: Service2
+    description: Book Servis with SqlPostgress Database
+paths:
+  /book/:
+    get:
+      tags:
+        - Service1
+      summary: get all books from database
+      operationId: GetBooks
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/books' 
+    post:
+      tags:
+        - Service1
+      summary: add new book
+      operationId: AddBook
+      requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/book'
+      responses:
+        '200':
+          description: Successful operation'
+    put:
+      tags:
+        - Service1
+      summary: rent book
+      operationId: RentBook
+      parameters:
+        - in: query
+          name: clientName
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: isbn
+          required: true
+          schema:
+            type: string
+      description: book unique value
+      responses:
+        '200':
+          description: Successful operation
+                
+  /book:
+    get:
+      tags:
+        - Service2
+      summary: get all only rented book
+      operationId: getBook
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/books'
+components:
+  schemas:
+    books:
+        type: array
+        items:
+          $ref: '#/components/schemas/book'
+    book:
+        type: object
+        properties:
+          title:
+            type: string
+          author: 
+            type: string
+          isbn:
+            type: string
+          category:
+            type: string
+          borrower:
+            type: string
+            
